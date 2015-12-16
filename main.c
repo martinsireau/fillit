@@ -6,16 +6,14 @@
 /*   By: msireau <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/13 16:58:03 by msireau           #+#    #+#             */
-/*   Updated: 2015/12/13 18:15:43 by msireau          ###   ########.fr       */
+/*   Updated: 2015/12/16 13:58:21 by msireau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/types.h>
-
-#include <stdio.h>
+#include "libft.h"
 
 #define BUF_SIZE 4096
 
@@ -31,10 +29,7 @@ int		ft_checktetri(char *buf)
 		while (buf[i] != '\n')
 		{
 			if (a > 4 || (buf[i] != '.' && buf[i] != '#'))
-			{
-				ft_putstr("error");
-				return(0);
-			}
+				ft_error();
 			a++;
 			i++;
 		}
@@ -49,12 +44,11 @@ int main(int argc, char **argv)
 	int		ret;
 
 	char	buf[BUF_SIZE + 1];
-	fd = open("valid_sample.fillit", O_RDONLY);
+	fd = open(argv[1], O_RDONLY);
+	if (argc != 2)
+		ft_error();
 	if (fd == -1)
-	{
-		ft_putstr("open () error");
-		return (1);
-	}
+		ft_error();
 	ret = read(fd, buf, BUF_SIZE);
 	buf[ret] = '\0';
 	ft_putnbr(ft_checktetri(buf));
